@@ -1,8 +1,11 @@
 # Hot Call-outs
 This is a plug-in for *LCPD First Response*, adds several call-outs and world events to *LCPD First Response* mod!
 
+<<<<<<< HEAD
 Download the latest: `https://github.com/RelaperCrystal/HotCallouts/releases/latest`
 
+=======
+>>>>>>> b3d222e9ac07f11de8c4fa8d9669da8533fd360e
 ## Contents
 
 Currently have *2 call-outs* and *1 world events*.
