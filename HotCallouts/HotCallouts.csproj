@@ -44,13 +44,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LCPD First Response">
-      <HintPath>E:\Kuai8Games\Games\GrandTheftAutoIV\LCPD First Response.dll</HintPath>
+      <HintPath>..\References\LCPD First Response.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="ScriptHookDotNet">
-      <HintPath>E:\Projects\LightLandtory\References\ScriptHookDotNet.dll</HintPath>
+      <HintPath>..\References\ScriptHookDotNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
