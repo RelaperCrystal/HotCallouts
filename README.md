@@ -5,12 +5,17 @@ Download the latest: `https://github.com/RelaperCrystal/HotCallouts/releases/lat
 
 ## Contents
 
-Currently have *2 call-outs* and *1 world events*.
+Currently have *3 call-outs* and *1 world events*.
 
 Call-outs:
 
 - Firearm Attack On An Officer
 - Dangerous Driving
+- Killing Spree In Progress
+
+World Events:
+
+- Mugging
 
 ## Installation
 
