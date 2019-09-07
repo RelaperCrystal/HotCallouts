@@ -68,6 +68,8 @@ namespace HotCallouts.Callouts
 			
 			Functions.SetPedIsOwnedByScript(target, this, true);
 			Functions.AddToScriptDeletionList(target, this);
+			
+			return OnCalloutAccepted();
 		}
 		
 		public override void Process()
