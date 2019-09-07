@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Callouts\DangerousDriver.cs" />
     <Compile Include="Callouts\FirearmAttackOnOfficer.cs" />
+    <Compile Include="Callouts\HKillingSpree.cs" />
     <Compile Include="HighHot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorldEvents\hMugging.cs" />

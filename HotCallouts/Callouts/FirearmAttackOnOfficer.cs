@@ -131,5 +131,20 @@ namespace HotCallouts.Callouts
 			
 			base.PedLeftScript(ped);
 		}
+		
+		public override void End()
+        {
+            base.End();
+
+            if (this.officerBlip != null && this.officerBlip.Exists())
+            {
+                this.officerBlip.Delete();
+            }
+            
+            if(this.targetBlip != null && this.targetBlip.Exists())
+            {
+            	this.targetBlip.Delete();
+            }
+        }
 	}
 }
