@@ -14,12 +14,20 @@ using LCPD_First_Response.LCPDFR.Callouts;
 
 namespace HotCallouts.Callouts
 {
+    public enum EFirearmAttackType
+    {
+        Attack,
+        TakingAim,
+        DrawGun
+    }
 	/// <summary>
 	/// Description of FirearmAttackOnOfficer.
 	/// </summary>
 	[CalloutInfo("FirearmAttackOnOfficer", ECalloutProbability.High)]
 	public class FirearmAttackOnOfficer : Callout
 	{
+        
+
 		LPed target;
 		LPed officer;
 		
@@ -29,6 +37,8 @@ namespace HotCallouts.Callouts
 		LHandle pursuit;
 		
 		bool IsCombatSetAleradySet;
+
+        EFirearmAttackType CallType;
 		
 		SpawnPoint spawnPoint;
 		public FirearmAttackOnOfficer()
@@ -38,6 +48,7 @@ namespace HotCallouts.Callouts
 		
 		public override bool OnBeforeCalloutDisplayed()
 		{
+            CallType = (EFirearmAttackType)Common.GetRandomEnumValue(typeof(EFirearmAttackType));
 			spawnPoint = Callout.GetSpawnPointInRange(LPlayer.LocalPlayer.Ped.Position, 100, 400);
 			if(this.spawnPoint == SpawnPoint.Zero)
 			{
@@ -47,44 +58,114 @@ namespace HotCallouts.Callouts
 			this.ShowCalloutAreaBlipBeforeAccepting(this.spawnPoint.Position, 50f);
             this.AddMinimumDistanceCheck(80f, this.spawnPoint.Position);
             
-            string area = Functions.GetAreaStringFromPosition(this.spawnPoint.Position);
-            this.CalloutMessage = "We have report of Firearm Attack on an officer in " + area + ", all units please respond.";
-            
-            string audioMessage = Functions.CreateRandomAudioIntroString(EIntroReportedBy.Officers);
-            string crimeMessage = "CRIM_A_FIREARM_ATTACK_ON_AN_OFFICER";
-            if (Common.GetRandomBool(0, 2, 1))
+            switch(CallType)
             {
-                crimeMessage = "CRIM_AN_OFFICER_ASSAULT";
-            }
+                case EFirearmAttackType.Attack :
+                    string area = Functions.GetAreaStringFromPosition(this.spawnPoint.Position);
+                    this.CalloutMessage = "We have report of Firearm Attack on an officer in " + area + ", all units please respond.";
             
-            Functions.PlaySoundUsingPosition(audioMessage + crimeMessage + " IN_OR_ON_POSITION", this.spawnPoint.Position);
-			
+                    string audioMessageAt = Functions.CreateRandomAudioIntroString(EIntroReportedBy.Officers);
+                    string crimeMessageAt = "CRIM_A_FIREARM_ATTACK_ON_AN_OFFICER";
+                    if (Common.GetRandomBool(0, 2, 1))
+                    {
+                        crimeMessageAt = "CRIM_AN_OFFICER_ASSAULT";
+                    }
+            
+                    Functions.PlaySoundUsingPosition(audioMessageAt + crimeMessageAt + " IN_OR_ON_POSITION", this.spawnPoint.Position);
+                    break;
+                case EFirearmAttackType.TakingAim :
+                    string areaTA = Functions.GetAreaStringFromPosition(this.spawnPoint.Position);
+                    this.CalloutMessage = "We have report of a suspect taking aim at an officer in " + areaTA + ", all units please respond.";
+            
+                    string audioMessageTA = Functions.CreateRandomAudioIntroString(EIntroReportedBy.Officers);
+                    string crimeMessageTA = "CRIM_A_FIREARM_ATTACK_ON_AN_OFFICER";
+                    if (Common.GetRandomBool(0, 2, 1))
+                    {
+                        crimeMessageTA = "CRIM_AN_OFFICER_ASSAULT";
+                    }
+            
+                    Functions.PlaySoundUsingPosition(audioMessageTA + crimeMessageTA + " IN_OR_ON_POSITION", this.spawnPoint.Position);
+                    break;
+                case EFirearmAttackType.DrawGun :
+                    string areaDG = Functions.GetAreaStringFromPosition(this.spawnPoint.Position);
+                    this.CalloutMessage = "We have report of a suspect holding a gun to officer, in " + areaDG + ".";
+
+                    string audioMessageDG = Functions.CreateRandomAudioIntroString(EIntroReportedBy.Officers);
+                    string crimeMessageDG = "CRIM_A_TAKING_AIM_AT_OFFICER_WITH_A_FIREARM";
+                    Functions.PlaySoundUsingPosition(audioMessageDG + crimeMessageDG + " IN_OR_ON_POSITION", this.spawnPoint.Position);
+                    break;
+            }
 			return base.OnBeforeCalloutDisplayed();
 		}
 		
 		public override bool OnCalloutAccepted()
 		{
+            
+            target = new LPed(spawnPoint.Position, "M_Y_GBIK_LO_01");
+            officer = new LPed(target.Position.Around(10.0f), "M_Y_COP");
+            switch(CallType)
+            {
+                case EFirearmAttackType.Attack :
+                    officer.EquipWeapon();
+			        target.EquipWeapon();
+			        
+			        officerBlip = officer.AttachBlip();
+			        targetBlip = target.AttachBlip();
 			
+			        officerBlip.Friendly = true;
 			
-			target = new LPed(spawnPoint.Position, "M_Y_GBIK_LO_01");
-			officer = new LPed(target.Position.Around(10.0f), "M_Y_COP");
+			        targetBlip.Icon = BlipIcon.Misc_CopHeli;
+			        targetBlip.Scale = 0.5f;
+			        targetBlip.Color = BlipColor.Red;
+			        targetBlip.RouteActive = true;
+			        targetBlip.Name = "Suspect";
+
+                    target.Task.FightAgainst(officer);
+				    officer.Task.FightAgainst(target);
+
+                    Functions.PrintText("Get to the ~y~crime scene~w~ ASAP!", 7000);
+                    Functions.AddTextToTextwall("Be advised, we have another unit responding.", Functions.GetStringFromLanguageFile("POLICE_SCANNER_CONTROL"));
+                    Functions.RequestPoliceBackupAtPosition(spawnPoint.Position);
+                    break;
+                case EFirearmAttackType.TakingAim :
+                    officer.EquipWeapon();
+                    target.EquipWeapon();
+
+                    officerBlip = officer.AttachBlip();
+			        targetBlip = target.AttachBlip();
 			
-			officer.EquipWeapon();
-			target.EquipWeapon();
+			        officerBlip.Friendly = true;
 			
-			officerBlip = officer.AttachBlip();
-			targetBlip = target.AttachBlip();
+			        targetBlip.Icon = BlipIcon.Misc_CopHeli;
+			        targetBlip.Scale = 0.5f;
+			        targetBlip.Color = BlipColor.Red;
+			        targetBlip.RouteActive = true;
+			        targetBlip.Name = "Suspect";
+
+                    officer.Task.AimAt(target.GPed, -1);
+                    target.Task.AimAt(officer.GPed, -1);
+                    Functions.PrintText("Get to the ~crime scene~w~.", 7000);
+                    break;
+                case EFirearmAttackType.DrawGun :
+                    officer.EquipWeapon();
+                    target.EquipWeapon();
+
+                    officerBlip = officer.AttachBlip();
+			        targetBlip = target.AttachBlip();
 			
-			officerBlip.Friendly = true;
+			        officerBlip.Friendly = true;
 			
-			targetBlip.Icon = BlipIcon.Misc_CopHeli;
-			targetBlip.Scale = 0.5f;
-			targetBlip.Color = BlipColor.Red;
-			targetBlip.RouteActive = true;
-			targetBlip.Name = "Suspect";
-			
-			
-			
+			        targetBlip.Icon = BlipIcon.Misc_CopHeli;
+			        targetBlip.Scale = 0.5f;
+			        targetBlip.Color = BlipColor.Red;
+			        targetBlip.RouteActive = true;
+			        targetBlip.Name = "Suspect";
+
+                    officer.Task.AimAt(target, -1);
+                    Functions.PrintText("Get to the ~crime scene~w~.", 7000);
+                    break;
+            }
+
 			Functions.AddToScriptDeletionList(target, this);
 			Functions.SetPedIsOwnedByScript(target, this, true);
 			
@@ -105,8 +186,7 @@ namespace HotCallouts.Callouts
 			{
 				targetBlip.RouteActive = false;
 				
-				target.Task.FightAgainst(officer);
-				officer.Task.FightAgainst(target);
+				
 			}
 			
 			if(target.HasBeenArrested)
@@ -120,7 +200,10 @@ namespace HotCallouts.Callouts
 				Functions.AddTextToTextwall("Code 4 - Suspect netrulized.", Functions.GetStringFromLanguageFile("POLICE_SCANNER_CONTROL"));
 				base.SetCalloutFinished(true, true, true);
 			}
-			
+			else if(!officer.IsAliveAndWell)
+            {
+                Functions.AddTextToTextwall("All units, we ahave an officer down.", Functions.GetStringFromLanguageFile("POLICE_SCANNER_CONTROL"));
+            }
 		 
 		}
 		

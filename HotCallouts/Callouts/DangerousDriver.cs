@@ -55,7 +55,7 @@ namespace HotCallouts.Callouts
             string crimeMessage = "CRIM_A_RECKLESS_DRIVER";
             if (Common.GetRandomBool(0, 2, 1))
             {
-                crimeMessage = "CRIM_A_TRAFFIC_VIOLATION";
+                crimeMessage = "CRIM_A_SPEEDING_FELONY";
             }
             
             Functions.PlaySoundUsingPosition(audioMessage + crimeMessage + " IN_OR_ON_POSITION", this.spawnPoint.Position);
