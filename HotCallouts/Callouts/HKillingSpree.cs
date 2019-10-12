@@ -57,7 +57,8 @@ namespace HotCallouts.Callouts
 		public override bool OnCalloutAccepted()
 		{
 			target = new LPed(spawnPoint.Position, "M_Y_STREET_01", LPed.EPedGroup.Criminal);
-			target.DefaultWeapon = Weapon.Shotgun_Basic;
+			// target.DefaultWeapon = Weapon.Shotgun_Basic;
+            // This Line May Leads to a LCPDFR mod crash
 			target.EquipWeapon();
 			target.RelationshipGroup = RelationshipGroup.Criminal;
 			target.ChangeRelationship(RelationshipGroup.Civillian_Male, Relationship.Hate);
@@ -69,7 +70,7 @@ namespace HotCallouts.Callouts
 			Functions.SetPedIsOwnedByScript(target, this, true);
 			Functions.AddToScriptDeletionList(target, this);
 			
-			return OnCalloutAccepted();
+			return base.OnCalloutAccepted();
 		}
 		
 		public override void Process()
