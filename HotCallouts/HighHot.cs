@@ -44,17 +44,64 @@ namespace HotCallouts
 		void OnDutyStateChanged(bool onDuty)
 		{
 			Log.Info("Player Onduty: " + onDuty, this);
-			if (onDuty)
-			{
-				Functions.AddTextToTextwall("HotCallout, (C) 2019 RelaperCrystal", "HotCallouts");
+            if (onDuty)
+            {
+                Functions.AddTextToTextwall("HotCallout, (C) 2019 RelaperCrystal", "HotCallouts");
                 Functions.AddTextToTextwall("Using HotCallout " + Version, "HotCallouts");
-				
-				Functions.RegisterCallout(typeof(Callouts.DangerousDriver));
-				Functions.RegisterCallout(typeof(Callouts.FirearmAttackOnOfficer));
+
+                Functions.RegisterCallout(typeof(Callouts.DangerousDriver));
+                Functions.RegisterCallout(typeof(Callouts.FirearmAttackOnOfficer));
                 Functions.RegisterCallout(typeof(Callouts.HKillingSpree));
-				
-				Functions.AddWorldEvent(typeof(WorldEvents.HMugging), "Mugging");
-			}
+
+                
+                try
+                {
+                    if (Properties.Settings.Default.ExperimentMode != null && Properties.Settings.Default.ExperimentMode && ExperimentModeAttribute.ExperimentCallouts.Count != 0)
+                    {
+                        Log.Info("Attmepting to proceed experiment call-outs.", "HighHot");
+                        Log.Info("Be advised this process may cause failure. Just in case, this step was proceeded in a try-catch.", "HighHot");
+                        foreach (Type callout in ExperimentModeAttribute.ExperimentCallouts)
+                        {
+                            if (callout != null)
+                            {
+                                Functions.RegisterCallout(callout);
+                            }
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Log.Error("There\'s a error while proceeding experiment call-outs.", "HighHot");
+                    Log.Error("Experiment Call-outs will NOT be added.", "HighHot");
+                    Log.Error("Info: " + ex.ToString(), "HighHot");
+                }
+
+                Functions.AddWorldEvent(typeof(WorldEvents.HMugging), "Mugging");
+
+               
+                try
+                {
+                    if (Properties.Settings.Default.ExperimentMode != null && Properties.Settings.Default.ExperimentMode && ExperimentModeAttribute.ExperimentWorldEvents.Count != 0)
+                    {
+                        Log.Info("Attmepting to proceed experiment world events.", "HighHot");
+                        Log.Info("Be advised that the HotCallout is using an auto-generated name, \r\nthis may cause failure.", "HighHot");
+                        Log.Info("Be advised this process may cause failure. Just in case, this step was proceeded in a try-catch.", "HighHot");
+                        foreach (Type wevent in ExperimentModeAttribute.ExperimentCallouts)
+                        {
+                            if (wevent != null)
+                            {
+                                Functions.AddWorldEvent(wevent, "Ex_" + wevent.ToString());
+                            }
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Log.Error("There\'s a error while proceeding experiment world events.", "HighHot");
+                    Log.Error("Experiment World Events will NOT be added.", "HighHot");
+                    Log.Error("Info: " + ex.ToString(), "HighHot");
+                }
+            }
 		}
 		public override void Initialize()
 		{

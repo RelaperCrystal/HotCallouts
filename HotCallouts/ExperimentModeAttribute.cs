@@ -19,6 +19,7 @@ namespace HotCallouts
     {
         private static List<Type> ExperimentCallouts_ = new List<Type>();
         private static List<Type> ExperimentWorldEvents_ = new List<Type>();
+        private static List<string> ExperimentWorldEventNames_ = new List<string>();
 
         public static List<Type> ExperimentCallouts { 
             get
@@ -42,11 +43,24 @@ namespace HotCallouts
             }
         }
 
+        public static List<string> ExperimentWorldEventNames
+        {
+            get
+            {
+                return ExperimentWorldEventNames_;
+            }
+            set
+            {
+                ExperimentWorldEventNames_ = value;
+            }
+        }
+
         public ExperimentModeAttribute(Type yourself, ElementType type)
         {
+            Log.Info("Registering Experiment Element: " + yourself.ToString(), "HotUtils");
             if(yourself == null || type == null)
             {
-                Log.Error("Exception thrown: ExperimentModeAttribute argument null", "HighHot");
+                Log.Error("Exception thrown: ExperimentModeAttribute argument null", "HotUtils");
                 throw new ArgumentNullException();
             }
             switch(type)
