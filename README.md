@@ -29,3 +29,8 @@ This plug-in probably **wont** load itself. If it does happens, please check the
 
 `[SYSTEM] HotCallout, (C) 2019 RelaperCrystal`
 
+## Crashes
+
+This plug-in **may crash one of the LCPDFR, this plug-in, or the game.** If it happens. please consider send an **issue** to make me know. Most of times, for now, all bugfixes was found by me, by playing the game, so I has the log file. But, your crash reporting to me requires a **full *LCPDFR Log File* for diagnostic purposes**. They named by `LCPDFR.log`. By that, I can found *where the error happens*, if it's an LCPDFR crash or plug-in crash. For game crash, please describe clearly, *how did you do before game crash, or how did you made the game crash*. 
+
+Please note that *random crash* was **unable** to diagnostic, or fix. Without a diagnostic, there's no way I can fix it. If I can recreate this issue, or log file has the reason how did it crash, this is usally fixed in next release, or in the source. 
