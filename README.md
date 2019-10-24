@@ -3,6 +3,8 @@ This is a plug-in for *LCPD First Response*, adds several call-outs and world ev
 
 Download the latest: `https://github.com/RelaperCrystal/HotCallouts/releases/latest`
 
+Please note the author only has two accounts: [@rcdraft](https://github.com/rcdraft) and [@RelaperCrystal](https://github.com/RelaperCrystal). Author will **never** give someone else push premissions *unless they are trustable*. If you want to contribute to this project, please use **pull request**.
+
 ## Contents
 
 Currently have *3 call-outs* and *1 world events*.
