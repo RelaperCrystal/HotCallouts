@@ -70,7 +70,13 @@ namespace HotCallouts.Callouts
 			driver = new LPed(spawnPoint.Position, "M_Y_STREET_01");
 			Vehicle temp = World.CreateVehicle(spawnPoint.Position.Around(5.0f));
 			car = LVehicle.FromGTAVehicle(temp);
-			
+
+            // Fix NullReferenceException
+            if(driver == null)
+            {
+                return false;
+            }
+
 			if(driver.Exists() || car.Exists())
 			{
 				driver.CanResistArrest = true;
