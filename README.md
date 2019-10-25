@@ -23,7 +23,7 @@ World Events:
 
 1. Make sure LCPD First Response mod is installed and working properly. Then, download latest version of this plug-in at releases.
 
-2. Put the `HotCallout.dll` and `HotCallout.pdb` into `Grand Theft Auto IV\LCPDFR\plugins\`, and the `Grand Theft Auto IV` represents where you installed Grand Theft Auto IV, or where the `GTAIV.exe` or `EFLC.exe` at. The `pdb` file is not required, but you better put it in the `plugins` folder.
+2. Put the `HotCallout.dll` ,`HotCallout.dll.config` and `HotCallout.pdb` into `Grand Theft Auto IV\LCPDFR\plugins\`, and the `Grand Theft Auto IV` represents where you installed Grand Theft Auto IV, or where the `GTAIV.exe` or `EFLC.exe` at. The `pdb` file is not required, but you better put it in the `plugins` folder.
 
 3. Launch the game, make sure when you on duty *(after going out the station first time after launched the LCPDFR, or using `ForceDuty` command)*, having a text on text wall like this:
 

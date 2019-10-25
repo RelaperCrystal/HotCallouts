@@ -58,7 +58,7 @@ namespace HotCallouts
         public ExperimentModeAttribute(Type yourself, ElementType type)
         {
             Log.Info("Registering Experiment Element: " + yourself.ToString(), "HotUtils");
-            if(yourself == null || type == null)
+            if(yourself == null)
             {
                 Log.Error("Exception thrown: ExperimentModeAttribute argument null", "HotUtils");
                 throw new ArgumentNullException();

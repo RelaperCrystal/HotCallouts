@@ -56,7 +56,7 @@ namespace HotCallouts
                 
                 try
                 {
-                    if (Properties.Settings.Default.ExperimentMode != null && Properties.Settings.Default.ExperimentMode && ExperimentModeAttribute.ExperimentCallouts.Count != 0)
+                    if (Properties.Settings.Default.ExperimentMode && ExperimentModeAttribute.ExperimentCallouts.Count != 0)
                     {
                         Log.Info("Attmepting to proceed experiment call-outs.", "HighHot");
                         Log.Info("Be advised this process may cause failure. Just in case, this step was proceeded in a try-catch.", "HighHot");
@@ -81,7 +81,7 @@ namespace HotCallouts
                
                 try
                 {
-                    if (Properties.Settings.Default.ExperimentMode != null && Properties.Settings.Default.ExperimentMode && ExperimentModeAttribute.ExperimentWorldEvents.Count != 0)
+                    if (Properties.Settings.Default.ExperimentMode && ExperimentModeAttribute.ExperimentWorldEvents.Count != 0)
                     {
                         Log.Info("Attmepting to proceed experiment world events.", "HighHot");
                         Log.Info("Be advised that the HotCallout is using an auto-generated name, \r\nthis may cause failure.", "HighHot");
