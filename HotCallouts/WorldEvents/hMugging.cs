@@ -103,51 +103,68 @@ namespace HotCallouts.WorldEvents
         {
             return LPlayer.LocalPlayer.Ped.Position.DistanceTo(this.Guy.Position) > 120;
         }
+
+        
 		
 		public override void Initialize()
         {
-            base.Initialize();
+            try
+            {
+                base.Initialize();
 
-            // We want to keep exclusive ownership of the peds, so no other script can use them or consider them for its actions. 
-            // Note that actions with high priority (such as player arresting a ped) can bypass this exclusive ownership and will call "PedLeftScript"
-            // before transferring ownership. Make sure to clean up everything there.
-            Functions.SetPedIsOwnedByScript(this.Guy, this, true);
-            Functions.SetPedIsOwnedByScript(this.Victim, this, true);
+                // We want to keep exclusive ownership of the peds, so no other script can use them or consider them for its actions. 
+                // Note that actions with high priority (such as player arresting a ped) can bypass this exclusive ownership and will call "PedLeftScript"
+                // before transferring ownership. Make sure to clean up everything there.
+                Functions.SetPedIsOwnedByScript(this.Guy, this, true);
+                Functions.SetPedIsOwnedByScript(this.Victim, this, true);
 
-            this.Guy.BlockPermanentEvents = true;
-            this.Victim.BlockPermanentEvents = true;
-            this.Guy.Task.AlwaysKeepTask = true;
-            this.Victim.Task.AlwaysKeepTask = true;
-            this.Guy.AttachBlip();
-            
-            this.Guy.DefaultWeapon = Weapon.Handgun_Glock;
-            this.Guy.EquipWeapon();
+                this.Guy.BlockPermanentEvents = true;
+                this.Victim.BlockPermanentEvents = true;
+                this.Guy.Task.AlwaysKeepTask = true;
+                this.Victim.Task.AlwaysKeepTask = true;
+                this.Guy.AttachBlip();
 
-            this.Guy.Task.AimAt(this.Victim, -1);
-            this.Victim.Task.HandsUp(-1);
-            
-            // Pursuit Handle
-            // Yes
-            pursuit = Functions.CreatePursuit();
-            Functions.AddPedToPursuit(pursuit, Guy);
-            Functions.SetPursuitDontEnableCopBlips(pursuit, true);
-            Functions.SetPursuitHasBeenCalledIn(pursuit, false);
-            Functions.SetPursuitCopsCanJoin(pursuit, false);
-            Functions.SetPursuitIsActiveForPlayer(pursuit, false);
+                this.Guy.DefaultWeapon = Weapon.Handgun_Glock;
+                this.Guy.EquipWeapon();
+
+                this.Guy.Task.AimAt(this.Victim, -1);
+                this.Victim.Task.HandsUp(-1);
+
+                // Pursuit Handle
+                // Yes
+                pursuit = Functions.CreatePursuit();
+                Functions.AddPedToPursuit(pursuit, Guy);
+                Functions.SetPursuitDontEnableCopBlips(pursuit, true);
+                Functions.SetPursuitHasBeenCalledIn(pursuit, false);
+                Functions.SetPursuitCopsCanJoin(pursuit, false);
+                Functions.SetPursuitIsActiveForPlayer(pursuit, false);
+            }
+            catch(Exception ex)
+            {
+                Log.Error("A exception occoured when starting", "HotCallouts] [hMugging");
+                Log.Error(ex.ToString(), "HotCallouts] [hMugging]");
+            }
         }
+
 		 
 		public override void PedLeftScript(LPed ped)
         {
-            base.PedLeftScript(ped);
-
+            Log.Info("PedLeftScript received", "HotCallouts] [hMugging");
             if (ped == this.Guy)
             {
                 this.Guy.Task.ClearAll();
+                Functions.SetPedIsOwnedByScript(ped, this, false);
             }
-
-            if (ped == this.Victim)
+            else if (ped == this.Victim)
             {
                 this.Victim.Task.ClearAll();
+                Functions.SetPedIsOwnedByScript(ped, this, false);
+            }
+            else
+            {
+                Log.Warning("A ped that should not be owned by Mugging World Event is reported LeftScript.", "HotCallouts");
+                Log.Warning("The mod will still try to make a left script, but the mod may crash.", "HotCallouts");
+                Functions.SetPedIsOwnedByScript(ped, this, false);
             }
         }
 		
