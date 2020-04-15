@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>HotCallouts</RootNamespace>
     <AssemblyName>HotCallouts</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
     <NoWin32Manifest>False</NoWin32Manifest>
@@ -62,6 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Callouts\TerroristAttack.cs" />
+    <Compile Include="Callouts\PrisonBreak.cs" />
     <Compile Include="Callouts\CarTheft.cs" />
     <Compile Include="Callouts\DangerousDriver.cs" />
     <Compile Include="Callouts\FirearmAttackOnOfficer.cs" />
@@ -75,6 +77,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="WorldEvents\hMugging.cs" />
+    <Compile Include="WorldEvents\ManWithWeapon.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,19 +1,19 @@
-﻿// HotCallouts
-// Copyright (C) 2019 RelaperCrystal
-// 
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+﻿/*  HotCallouts
+    Copyright (C) 2019, 2020  RelaperCrystal
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 
 using System;
 using System.Collections.Generic;
@@ -46,7 +46,7 @@ namespace HotCallouts
 			Log.Info("Player Onduty: " + onDuty, this);
             if (onDuty)
             {
-                Functions.AddTextToTextwall("HotCallout, (C) 2019 RelaperCrystal", "HotCallouts");
+                Functions.AddTextToTextwall("HotCallout, (C) 2019-2020 RelaperCrystal", "HotCallouts");
                 Functions.AddTextToTextwall("Using HotCallout " + Version, "HotCallouts");
 
                 Functions.RegisterCallout(typeof(Callouts.DangerousDriver));
@@ -121,7 +121,7 @@ namespace HotCallouts
 			Log.Info("HighHotCallouts Unloaded", this);
 		}
 
-        [ConsoleCommand("StartCallout", false)]
+        [ConsoleCommand("StartHotCall", false)]
         private void StartCallout(ParameterCollection parameterCollection)
         {
             if (parameterCollection.Count > 0)

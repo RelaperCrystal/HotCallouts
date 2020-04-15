@@ -70,8 +70,12 @@ namespace HotCallouts.Callouts
 			driver = new LPed(spawnPoint.Position, "M_Y_STREET_01");
 			Vehicle temp = World.CreateVehicle(spawnPoint.Position.Around(5.0f));
 			car = LVehicle.FromGTAVehicle(temp);
+            driver.IsRequiredForMission = true;
+            car.IsRequiredForMission = true;
 
-            // Fix NullReferenceException
+            try
+            {
+                // Fix NullReferenceException
             if(driver == null)
             {
                 return false;
@@ -83,10 +87,6 @@ namespace HotCallouts.Callouts
 				driver.Task.WarpIntoVehicle(car.GVehicle, VehicleSeat.Driver);
 				driver.Task.CruiseWithVehicle(car.GVehicle, 20f, false);
 				blip = driver.AttachBlip();
-                blip.Icon = BlipIcon.Building_PoliceStation;
-                blip.Color = BlipColor.Red;
-                blip.Name = "Suspect";
-                blip.RouteActive = true;
                 
                 Functions.AddToScriptDeletionList(driver, this);
                 Functions.SetPedIsOwnedByScript(driver, this, true);
@@ -97,6 +97,14 @@ namespace HotCallouts.Callouts
 			{
 				return false;
 			}
+            }
+            catch(Exception ex)
+            {
+                Log.Error("Exception caught while callout is being accepted", "HotCallots] [DangerousDriver");
+                Log.Error(ex.GetType().Name + ": " + ex.Message +"\r\n" + ex.StackTrace, "HotCallots] [DangerousDriver");
+                return false;
+            }
+            
 			return true;
 		}
 		
